@@ -2,7 +2,12 @@
 " - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
-
+Plug 'sheerun/vim-polyglot'
+Plug 'preservim/nerdtree'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'json', 'yaml', 'html' ] }
 call plug#end()
 
 "Instaled Themes
@@ -60,6 +65,8 @@ exec 'set textwidth=0'
 exec 'set shiftwidth=4'
 exec 'set softtabstop=4'
 
+"Use system clipboard
+"set clipboard=unnamed
 "default copy and paste to use the clipboard
 if has('unnamedplus')
 	set clipboard+=unnamedplus 
