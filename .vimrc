@@ -7,7 +7,6 @@ Plug 'preservim/nerdtree'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'json', 'yaml', 'html' ] }
 Plug 'valloric/youcompleteme'
 Plug 'itchyny/lightline.vim'
 Plug 'jiangmiao/auto-pairs'
@@ -15,7 +14,13 @@ Plug 'tpope/vim-commentary'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'phanviet/vim-monokai-pro' 
 Plug 'ap/vim-buftabline'
+Plug 'airblade/vim-gitgutter'
+Plug 'sts10/vim-pink-moon'
+Plug 'dense-analysis/ale'
 call plug#end()
+
+" Disable YouCompleteMe
+" let g:loaded_youcompleteme = 1
 
 "Instaled Themes
 "Plug 'arcticicestudio/nord-vim'
@@ -29,48 +34,49 @@ call plug#end()
 "Plug 'glepnir/oceanic-material'
 "Plug 'mhartington/oceanic-next'
 
+set encoding=utf-8
 syntax enable
 set termguicolors
 syntax on
-"shows matching braces when the text indicator is over them
+" shows matching braces when the text indicator is over them
 set showmatch
-"shows the line numbers
+" shows the line numbers
 set number
-"shows the relative line numbers
-set relativenumber
-"makes searching case insensitive
+" shows the relative line numbers
+set number relativenumber
+" makes searching case insensitive
 set ignorecase
-"makes the search case insensitive when all in lowercase but becomes case-sensitive if the search contains any capital letters
+" makes the search case insensitive when all in lowercase but becomes case-sensitive if the search contains any capital letters
 "set smartcase
-"search as you type instead of when you press enter only
+" search as you type instead of when you press enter only
 set incsearch
-"makes backspace work the expected way
+" makes backspace work the expected way
 set backspace=indent,eol,start
+" Highlights the searched item
+set cursorline
+ 
 
- "Highlights the searched item
+ " Highlights the searched item
 "set hls
 
-"moves your cursor an extra space after the end of a line where enters insert mode
+" moves your cursor an extra space after the end of a line where enters insert mode
 set ve+=onemore
 
-"mouse support
-set mouse+=a
+" mouse support
+"set mouse+=a
 
-"colorscheme monokai_pro
+" Set colorscheme
 colorscheme pink-moon
-"colorscheme OceanicNext
-"set background=dark
-"colorscheme solarized8_flat
 
-"auto-indenting
+" auto-indenting
 set autoindent
-set noexpandtab
+set expandtab
 set smartindent
 set textwidth=0
-exec 'set tabstop=4'
+exec 'set tabstop=2'
 exec 'set textwidth=0'
-exec 'set shiftwidth=4'
-exec 'set softtabstop=4'
+exec 'set shiftwidth=2'
+exec 'set softtabstop=2'
 
 "Use system clipboard
 "set clipboard=unnamed
@@ -182,6 +188,25 @@ nnoremap <C-k> :m .-2<CR>==
 vnoremap <C-j> :m '>+1<CR>gv=gv
 vnoremap <C-k> :m '<-2<CR>gv=gv
 
+" Remember marks
+set viminfo='100,f1
+
+" Disable beeping and flashing
+set noerrorbells visualbell t_vb=
+if has('autocmd')
+	autocmd GUIEnter * set visualbell t_vb=
+endif
+
+" :let &pythonthreedll = 'C:\Users\Tap\AppData\Local\Programs\Python\Python38\python38.dll'
+" :let &pythonthreedll = '/c/Users/Tap/AppData/Local/Programs/Python/Python38/python38.dll'
+
+" Set The Language Of The Vim"
+set langmenu=en_US
+let $LANG = 'en_US'
+
+" Show hidden files/dir in NERD Tree
+let NERDTreeShowHidden=1
+
 " Statusline configuration. Using lightline
 set laststatus=2
 set noshowmode
@@ -197,11 +222,21 @@ let g:lightline = {
 			\ 'colorscheme': 'monokai_pro',
 			\ }
 
-" Remember marks
-set viminfo='100,f1
-
-" Disable beeping and flashing
-set noerrorbells visualbell t_vb=
-if has('autocmd')
-	autocmd GUIEnter * set visualbell t_vb=
+if has("gui_running")
+  if has("gui_gtk2")
+    set guifont=Inconsolata\ 12
+  elseif has("gui_macvim")
+    set guifont=Menlo\ Regular:h14
+  elseif has("gui_win32")
+    set guifont=Space_Mono_for_Powerline:h11:cDEFAULT
+  endif
 endif
+
+" ALE Linters+Fixers
+let g:ale_fixers = {
+\   'javascript': ['eslint'],
+\}
+
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\}
